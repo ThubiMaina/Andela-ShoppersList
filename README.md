@@ -47,7 +47,7 @@ This will enable you to run single file tests like.
 
 $ (yourenvname) nosetests -v
 
-##Running the program
+## Running the program
 
 - Run the program by typing the command in your terminal :
 
