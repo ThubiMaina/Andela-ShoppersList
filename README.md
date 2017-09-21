@@ -54,3 +54,5 @@ $ (yourenvname) nosetests -v
 $ (yourenvname) python app.py
 
 - This directs you the the home/ landing page 
+
+[![Coverage Status](https://coveralls.io/repos/github/ThubiMaina/Andela-ShoppersList/badge.svg?branch=master)](https://coveralls.io/github/ThubiMaina/Andela-ShoppersList?branch=master)
