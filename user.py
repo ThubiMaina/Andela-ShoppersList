@@ -16,38 +16,23 @@ class User(object):
         self.cpassword = cpassword
 
     def register(self, email, username, password, cpassword):
-        if re.match("[a-zA-Z0-9- .]+$",username):
-            if username !='' and email !='' and password !='':
-                if username not in users.keys():
+        if username != '' and email != '' and password !='':
+            if re.match("[a-zA-Z0-9- .]+$", username):
                     if email not in users.keys():
-                        if password ==cpassword:
-                            regEmail = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-                            regPass = r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+                        if password == cpassword:
+                            regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
                             result = email
-                            if re.search(regEmail ,result):
-                                if re.search(regPass ,password):
+                            if re.search(regex ,result):
                                     users[email] = {'email':email,
                                                     'username':username,
-                                                    'password':password}
+                                                    'password':password
+                                                    }
                                     return 1
-                                return 7
                             return 2    
                         return 3
                     return 4
-                return 5
+            return 8
+        return 6
 
-            return 6
-        
-        return 8
-    def login(self,username, password):
-        """ defining method to Log in user"""
-        if email != '' and password != '':
-            if email in users.keys():
-                result = users[email]
-                password = result['pass']
-                if password == password:
-                    return 1
-                return 2
-            return 3
-        return 4
+    
 
