@@ -17,7 +17,11 @@ def signup():
 
 @app.route('/create')
 def create():
-    return render_template("Create.html")    
+    return render_template("Create.html")
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template("dashboard.html")        
 
 
 
