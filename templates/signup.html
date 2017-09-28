@@ -52,12 +52,14 @@
 
 
   <div class="container">
-
+    {% if data %}
+    <center><div class="alert alert-warning">
+      <strong>{{data}}</strong>
+    </div></div></center>
+    {% endif%}
     <div class="row">
       <div class="col-sm-offset-3 col-sm-6">
-        {% if data %}
-        <center><div class="alert alert-error"> {{ data }}</div></center>
-        {% endif%}
+        
         <form method="POST" action="{{ url_for('signup') }}">
           <h1>Sign Up here</h1>
           <div class="form-group">
