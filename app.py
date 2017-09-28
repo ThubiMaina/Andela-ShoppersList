@@ -1,5 +1,6 @@
-from flask import Flask,render_template,request,flash
+from flask import Flask,render_template,request
 from user import User
+from shopperlist import ShopperList
 from flask import session
 import os
 
@@ -9,6 +10,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 newUser = User()
+shoplist = ShopperList()
 
 @app.route('/')
 
@@ -21,8 +23,26 @@ def login():
         email = request.form['email']
         password = request.form['password']
         result = newUser.login(email, password)
-        print(result)
-    return render_template("login.html") 
+        if result == 1:
+            name = newUser.get_user_name(email)
+            email = newUser.get_user_email(email)
+            session['user'] = name
+            session['email'] = email
+            return render_template('home.html', data=session)
+        elif result == 2:
+            error = "Password mismatch"
+            return render_template('login.html', data=error)	
+        elif result == 3:
+            error = "The user does not exist please register and try again"
+            return render_template('login.html', data=error)	
+        elif result == 4:
+            error = "Please fill all the fields"
+            return render_template('login.html', data=error)	 	
+        else:
+            error = "Wrong credentials please try again"
+            return render_template ('login.html',data=error) 
+    else:
+        return render_template('login.html') 
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -31,7 +51,7 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         cpassword = request.form['cpassword']
-        print(username, email, password, cpassword,">>>")
+        print(username, email, password, cpassword,)
         result = newUser.register(email, username, password, cpassword)
 
         if result == 1:
@@ -64,17 +84,6 @@ def signup():
     return render_template('signup.html')
         
     return render_template("signup.html")
-
-@app.route('/create')
-def create():
-    if request.method == 'POST':
-        name = request.form['name']
-        description = request.form['description']
-    return render_template("Create.html")
-
-@app.route('/dashboard')
-def dashboard():
-    return render_template("dashboard.html")        
 
 
 
