@@ -85,6 +85,31 @@ def signup():
         
     return render_template("signup.html")
 
+@app.route('/create' ,methods = ['POST','GET'])
+def create():
+    if request.method == 'POST':
+        name = request.form['name']
+        description = request.form['description']
+        result = shoplist.create(name ,description)
+        
+    return render_template("Create.html")
+
+@app.route('/create' ,methods = ['GET'])
+def getshoppinglists():
+    if request.method == 'get':
+        result = shoplist.get_shoppinglist()
+        if (result != {}):
+            return render_template('myshoppinglists.html', data=result)
+        else:
+            error = "create a shopping list first"
+            return render_template('Create.html', data=error)
+        
+    return render_template("Create.html")
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template("dashboard.html")        
+
 
 
 if __name__ == "__main__":
