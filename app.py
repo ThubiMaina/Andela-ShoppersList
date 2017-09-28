@@ -1,7 +1,6 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,session,redirect,url_for
 from user import User
 from shopperlist import ShopperList
-from flask import session
 import os
 
 
@@ -24,9 +23,9 @@ def login():
         password = request.form['password']
         result = newUser.login(email, password)
         if result == 1:
-            name = newUser.get_user_name(email)
+            username = newUser.get_user_name(email)
             email = newUser.get_user_email(email)
-            session['user'] = name
+            session['user'] = username
             session['email'] = email
             return render_template('home.html', data=session)
         elif result == 2:
@@ -51,13 +50,12 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         cpassword = request.form['cpassword']
-        print(username, email, password, cpassword,)
         result = newUser.register(email, username, password, cpassword)
 
         if result == 1:
             session['user'] = username
             message = "Account created sucessfully"
-            return render_template('home.html', data = message)
+            return render_template('login.html', data = message)
 
         elif result == 6:
             message = ("please fill all the fields")
@@ -87,20 +85,24 @@ def signup():
 
 @app.route('/create' ,methods = ['POST','GET'])
 def create():
-    if request.method == 'POST':
-        name = request.form['name']
-        description = request.form['description']
-        result = shoplist.create(name ,description)
-        print(result)
-        
-    return render_template("Create.html")
+    
+    if  'email' in session:
+        if request.method == 'POST':
+            name = request.form['name']
+            description = request.form['description']
+            result = shoplist.create(name ,description)
+            
+        return render_template("Create.html")
+    error = 'you have to be logged in'
+    return render_template('login.html')
+
 
 @app.route('/create' ,methods = ['GET'])
 def getshoppinglists():
-    if request.method == 'get':
+    if request.method == 'GET':
         result = shoplist.get_shoppinglist()
         if (result != {}):
-            return render_template('myshoppinglists.html', data=result)
+            return render_template('dashboard.html', data=result)
         else:
             error = "create a shopping list first"
             return render_template('Create.html', data=error)
@@ -109,9 +111,18 @@ def getshoppinglists():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template("dashboard.html")        
+    if request.method == 'GET':
+        result = shoplist.get_shoppinglist()
+    
+        return render_template('dashboard.html', data=result)
+        
 
-
+@app.route('/logout')
+def logout():
+    """Handles requests to logout a user"""
+    session.pop('email', None)
+    error = 'You are logged out'
+    return redirect(url_for('index') )
 
 if __name__ == "__main__":
     app.run(debug=True)
