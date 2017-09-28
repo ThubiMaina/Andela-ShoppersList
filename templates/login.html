@@ -52,7 +52,11 @@ body{
           </nav>
 
     <div class="container">
-        
+        {% if data %}
+        <center><div class="alert alert-warning">
+          <strong>{{data}}</strong>
+        </div></div></center>
+        {% endif%}
     
     <div class="row">
         <div class="col-sm-offset-3 col-sm-6">
