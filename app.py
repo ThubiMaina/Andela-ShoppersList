@@ -91,6 +91,7 @@ def create():
         name = request.form['name']
         description = request.form['description']
         result = shoplist.create(name ,description)
+        print(result)
         
     return render_template("Create.html")
 
