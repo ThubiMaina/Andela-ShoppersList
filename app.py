@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,redirect,url_for
+from flask import Flask, render_template, request,session, redirect, url_for
 from user import User
 from shopperlist import ShopperList
 import os
@@ -30,7 +30,7 @@ def login():
             return render_template('home.html', data=session)
         elif result == 2:
             error = "Password mismatch"
-            return render_template('login.html', data=error)	
+            return render_template('login.html',data=error)	
         elif result == 3:
             error = "The user does not exist please register and try again"
             return render_template('login.html', data=error)	
@@ -94,7 +94,7 @@ def create():
             
         return render_template("Create.html")
     error = 'you have to be logged in'
-    return render_template('login.html')
+    return render_template('login.html', data=error)
 
 
 @app.route('/create' ,methods = ['GET'])
@@ -121,8 +121,8 @@ def dashboard():
 def logout():
     """Handles requests to logout a user"""
     session.pop('email', None)
-    error = 'You are logged out'
-    return redirect(url_for('index') )
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
