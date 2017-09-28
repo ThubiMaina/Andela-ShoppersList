@@ -12,7 +12,7 @@ class ShopperList(object):
         """defining method to create shop list"""
         if description != ''and name != '':
             if lists != {}:
-                if name not in my_list.keys():
+                if name not in lists.keys():
                     self.ShopperLists[name] = {
                     'description':description,
                     'name':name,
