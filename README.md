@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/ThubiMaina/Andela-ShoppersList/badge.svg?branch=develop)](https://coveralls.io/github/ThubiMaina/Andela-ShoppersList?branch=develop)
+
 # Andela-ShoppersList
 
 * The repository so far contains interfaces without functionality
