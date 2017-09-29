@@ -1,8 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/ThubiMaina/Andela-ShoppersList/badge.svg?branch=master)](https://coveralls.io/github/ThubiMaina/Andela-ShoppersList?branch=master)
 
-<a href="https://codeclimate.com/github/codeclimate/codeclimate"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg" /></a>
-
-<a href="https://codeclimate.com/github/codeclimate/codeclimate/coverage"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/coverage.svg" /></a>
 
 # Andela-ShoppersList
 
