@@ -34,11 +34,14 @@
     <ul class="nav navbar-nav">
       <li><a href="/">Home</a></li>
       
+      
 
     </ul>
+    <center><a href="/create" class="btn btn-primary  btn-md  ">Add new list</a></center>
   </nav>
  
 <body style="background-image:  url(../static/images/4.jpg); background-color: #DDD">
+  
   
    
     <section>
@@ -49,16 +52,22 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>description</th>
+          <th>Action</th>
           
-
         </tr>
       </thead>
       <tbody>
-        <!-- users shopping list --> 
-                            
+        <!-- users shopping list -->      
           {% for d in data%}
           <tr>
-            <td>{{d}}</td>
+            <td>{{data[d]["name"]}}</td>
+            <td>{{data[d]["description"]}}</td>
+            <td>
+              <a href="" class="btn btn-primary btn-md ">edit</a>
+              <a href="/createitem" class="btn btn-primary  btn-md ">add item</a>
+              <a href="{{url_for('delete', name=data[d]["name"])}}" class="btn btn-primary  btn-md ">delete</a>
+            </td>
           </tr>
                
               {% endfor %}

@@ -27,6 +27,18 @@ class TestUser(unittest.TestCase):
         result = self.newUser.register('','Erick','1234','1234')
         self.assertEqual(6,result,'Email cannot be empty')
 
+    def test_wrong_login_password(self):
+        """defining method to test if login password is equal to register passsword"""
+        self.newUser.users = {}
+        self.newUser.register( 'erick@mail.com', 'Erick','pass', 'pass')
+        result = self.newUser.login('erick@mail.com', 'pass123')
+        self.assertEqual(2, result,"password mismatch")
+
+    def test_cpassword_is_password(self):
+        """defining method to test for created user's password is equal to confirm password"""
+        output=self.newUser.register('erick@email.com', 'Erick', '1234', '124')    
+        self.assertEqual(3, output, "password mismatch")
+
     def test_null_password(self):
         """"""
         result = self.newUser.register('erick@gmail.com','Erick','', '1234')

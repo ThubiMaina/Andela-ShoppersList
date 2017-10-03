@@ -1,9 +1,7 @@
-from flask import Flask, render_template, request,session, redirect, url_for
+import os
 from user import User
 from shopperlist import ShopperList
-import os
-
-
+from flask import Flask, render_template, request, session, redirect, url_for
 
 
 app = Flask(__name__)
@@ -12,9 +10,13 @@ newUser = User()
 shoplist = ShopperList()
 
 @app.route('/')
-
 def index():
     return render_template("home.html")
+
+@app.route('/createitem')
+def createitem():
+    return render_template("createitem.html")
+
 
 @app.route('/login' , methods=['GET' , 'POST'])
 def login():
@@ -29,7 +31,7 @@ def login():
             session['email'] = email
             return render_template('home.html', data=session)
         elif result == 2:
-            error = "Password mismatch"
+            error = "Wrong Password"
             return render_template('login.html',data=error)	
         elif result == 3:
             error = "The user does not exist please register and try again"
@@ -45,6 +47,7 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """define method to register users"""
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -80,20 +83,19 @@ def signup():
             error = "email already registered"
             return render_template('signup.html', data=error)
     return render_template('signup.html')
-        
-    return render_template("signup.html")
 
-@app.route('/create' ,methods = ['POST','GET'])
+@app.route('/create', methods=['POST','GET'])
 def create():
-    
+    """Define method to create shopping lists"""
     if  'email' in session:
         if request.method == 'POST':
             name = request.form['name']
             description = request.form['description']
             result = shoplist.create(name ,description)
-            
+            return redirect('/dashboard') 
         return render_template("Create.html")
-    error = 'you have to be logged in'
+
+    error = 'you have to be logged in'           
     return render_template('login.html', data=error)
 
 
@@ -102,20 +104,39 @@ def getshoppinglists():
     if request.method == 'GET':
         result = shoplist.get_shoppinglist()
         if (result != {}):
-            return render_template('dashboard.html', data=result)
+            return render_template('dashboard.html', data = result)
         else:
             error = "create a shopping list first"
-            return render_template('Create.html', data=error)
+            return render_template('Create.html', data = error)
         
     return render_template("Create.html")
 
+
 @app.route('/dashboard')
 def dashboard():
-    if request.method == 'GET':
-        result = shoplist.get_shoppinglist()
-    
-        return render_template('dashboard.html', data=result)
-        
+    if  'email' in session:
+        if request.method == 'GET':
+            result = shoplist.get_shoppinglist()
+            return render_template('dashboard.html', data = result)
+
+    error = 'Log in to see your dashboard'           
+    return render_template('login.html', data=error)    
+
+@app.route('/delete/<name>')
+def delete(name):
+    """define route to delete a shoppinglist"""
+    res = shoplist.get_shoppinglist()
+    if res:
+        result = shoplist.delete(name)
+        if result == True:
+            message = "successfully deleted"
+            return redirect(url_for('dashboard', data=message))
+        else:
+            message = "shoplist not deleted"
+            return redirect(url_for('dashboard', data=message))				
+    else:
+        message = "not found"
+        return render_template('create.html', data=message)
 
 @app.route('/logout')
 def logout():
@@ -125,4 +146,3 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    

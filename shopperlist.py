@@ -1,5 +1,6 @@
 lists = {}
-
+shoppingItems = []
+"""an empty list to store my items"""
 class ShopperList(object):
     ShopperLists = {}
     
@@ -29,6 +30,21 @@ class ShopperList(object):
         else:
             return 3 
 
+    def createitem(self, name, item):
+        """defining method to create an item in a shoppinglist"""
+        if item != '':
+            shoppingItems.append({'item': item, 'name': name})
+            return 1
+        return 2    
+
     def get_shoppinglist(self) :
-        return self.ShopperLists         
-        
+        return self.ShopperLists
+
+    def delete(self, name):
+        """defining method to delete shopping  list"""
+        if name in self.ShopperLists.keys():
+            #checks if the name being deleted exists
+            del self.ShopperLists[name]
+            return True
+        else:
+            return 2 
